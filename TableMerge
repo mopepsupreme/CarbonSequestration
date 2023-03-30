@@ -1,0 +1,50 @@
+CREATE TABLE `Portland_trees.Combined`
+AS 
+SELECT 
+  t1.Species AS Species,
+  t1.DBH AS DBH,
+  t1.Condition AS Condition,
+  t1.x_2016 AS X_Coord,
+  t1.y_2016 AS Y_Coord,
+  l.Common_Name AS Common_Name,
+  l.Scientific_Name AS Scientific_Name,
+  t1.Functional AS Functional_Type,
+  t1.Native AS Native,
+  NULL AS Tree_Height
+FROM `Portland_trees.2016` t1
+JOIN `Portland_trees.Legend` l
+ON l.Plant_Symbol = t1.Species
+
+UNION ALL
+
+SELECT 
+  t2.Species_2019 AS Species,
+  t2.DBH_2019 AS DBH,
+  t2.Condition_2019 AS Condition,
+  t2.x_coordinate_2019 AS X_Coord,
+  t2.y_coordinate_2019 AS Y_Coord,
+  l.Common_Name AS Common_Name,
+  l.Scientific_Name AS Scientific_Name,
+  t2.Functional_Type_2019 AS Functional_Type,
+  t2.Native_2019 AS Native,
+  t2.Tree_Height_2019 AS Tree_Height
+FROM `Portland_trees.2019` t2
+JOIN `Portland_trees.Legend` l
+ON l.Plant_Symbol = t2.Species_2019
+
+UNION ALL
+
+SELECT 
+  NULL AS Species,
+  NULL AS DBH,
+  NULL AS Condition,
+  h.x_heritage AS X_Coord,
+  h.y_heritage AS Y_Coord,
+  l.Common_Name AS Common_Name,
+  l.Scientific_Name AS Scientific_Name,
+  NULL AS Functional_Type,
+  NULL AS Native,
+  NULL AS Tree_Height
+FROM `Portland_trees.heritage` h
+JOIN `Portland_trees.Legend` l
+ON l.Scientific_Name = h.Scientific_Name_heritage
